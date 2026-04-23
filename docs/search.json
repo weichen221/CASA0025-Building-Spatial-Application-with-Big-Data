@@ -4,144 +4,17 @@
     "href": "index.html",
     "title": "Pedrógão Grande Reburn Susceptibility Application",
     "section": "",
-    "text": "This project develops a Google Earth Engine application for policymakers and wildfire planners to assess reburn susceptibility within the 2017 Pedrógão Grande fire footprint in central Portugal. The model identifies which 100 m cells are most likely to reburn before the 2026 fire season by combining official fire perimeter data with remotely sensed indicators of initial burn severity, post-fire vegetation recovery, current fuel condition, and topographic controls. A Random Forest classifier is used to estimate reburn probability from these predictors, and the final application translates model outputs into interactive maps, municipality summaries, and click-based spatial diagnostics. The platform is intended to support operational prioritisation for fuel reduction and wildfire resilience planning.",
+    "text": "This project develops a Google Earth Engine application for policymakers and wildfire planners to assess reburn susceptibility within the 2017 Pedrógão Grande fire footprint in central Portugal. The model identifies which 100 m cells are most likely to reburn before the 2026 fire season by combining official fire perimeter data with remotely sensed indicators of initial burn severity, post-fire vegetation recovery, current fuel condition, and topographic controls. A Random Forest classifier is used to estimate reburn probability from these predictors, and the final application translates model outputs into interactive maps, municipality summaries, and click-based spatial diagnostics. The platform is intended to support operational prioritisation for fuel reduction and wildfire resilience planning.\n\n\nThe application maps the distribution of re-ignition susceptibility in the affected area of the Great Pedrogan Fire in central Portugal in 2017. Using the flare-up boundary data from 2018 to 2025 provided by the Portuguese National Forest Service (ICNF), the application analyses the correlation between the severity of the fire, post-fire recovery, fuel status in 2025, surface temperature, and the topography and the spatial distribution pattern of the re-ignition. The application aims to support risk prioritisation before the 2026 fire season through an interactive and easy-to-understand interface.\n\n\n\nThe main target user of the tool is AGIF, which is especially suitable for prioritising fuel reduction work in the affected area. The tool is also suitable for other stakeholders involved in post-fire management, who need to check the flammability distribution pattern, explore local predictor values, and understand the output of the model behind the map.",
     "crumbs": [
       "Home"
     ]
-  },
-  {
-    "objectID": "index.html#study-objective",
-    "href": "index.html#study-objective",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.1 1. Study Objective",
-    "text": "6.1 1. Study Objective\nPredict which pixels inside the 2017 burn scar are most susceptible to reburning before the 2026 fire season.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#research-questions",
-    "href": "index.html#research-questions",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.2 2. Research Questions",
-    "text": "6.2 2. Research Questions\n\n6.2.1 Q1. Recovery trajectory\nHow does ecological recovery rate affect reburn probability?\n\n\n6.2.2 Q2. Severity legacy\nDoes higher 2017 burn severity increase future reburn likelihood?\n\n\n6.2.3 Q3. Operational prioritisation\nHow can continuous model probabilities be translated into actionable management classes?",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#response-variable",
-    "href": "index.html#response-variable",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.3 3. Response Variable",
-    "text": "6.3 3. Response Variable\nBinary reburn labels were created by intersecting official post-2017 fire perimeters with the 2017 Pedrógão footprint.\n\n1 = reburned\n0 = not reburned",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#predictor-variables",
-    "href": "index.html#predictor-variables",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.4 4. Predictor Variables",
-    "text": "6.4 4. Predictor Variables\n\n6.4.1 Initial Fire Legacy\n\ndNBR_2017\n\n\n\n6.4.2 Recovery Dynamics\n\nNBR_slope_2018_2020\nNBR_offset\n\n\n\n6.4.3 Fuel State (2025)\n\nNDVI_2025\nNDMI_min_2025\nLST_max_2025\n\n\n\n6.4.4 Terrain Controls\n\nelevation\naspect",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#variable-refinement",
-    "href": "index.html#variable-refinement",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.5 5. Variable Refinement",
-    "text": "6.5 5. Variable Refinement\nTwo candidate predictors were removed after model screening:\n\nslope\ndistance to settlement\n\nReasons:\n\nzero Random Forest importance;\nnegligible AUC contribution;\nsimplified model interpretation.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#leakage-prevention",
-    "href": "index.html#leakage-prevention",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.6 6. Leakage Prevention",
-    "text": "6.6 6. Leakage Prevention\nTo avoid temporal leakage, vegetation recovery slope was estimated using 2018–2020 only, rather than using later years that may already contain reburn impacts.\nThis improves causal validity.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#model-specification",
-    "href": "index.html#model-specification",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.7 7. Model Specification",
-    "text": "6.7 7. Model Specification\nA Random Forest classifier was implemented in :contentReferenceoaicite:2 Earth Engine.\nMain settings:\n\nTrees: 100\nMinimum leaf population: 10\nBalanced class sampling\n\nTwo output modes:\n\nProbability\nClassification",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#validation-strategy",
-    "href": "index.html#validation-strategy",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.8 8. Validation Strategy",
-    "text": "6.8 8. Validation Strategy\nInstead of a random split, a spatial holdout design was used.\nTraining regions:\n\nMação\nGóis\nAbrantes\n\nTesting region:\n\nPedrógão Grande\n\nThis reduces inflated performance caused by spatial autocorrelation.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#performance-metrics",
-    "href": "index.html#performance-metrics",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.9 9. Performance Metrics",
-    "text": "6.9 9. Performance Metrics\nModel quality was assessed using:\n\nAUC\nBrier Score\nAccuracy\nKappa\nPrecision\nRecall\nF1 Score\n\nThe optimal classification threshold was selected using Youden’s J statistic rather than a naive 0.5 cutoff.",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#final-outputs",
-    "href": "index.html#final-outputs",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "6.10 10. Final Outputs",
-    "text": "6.10 10. Final Outputs\nThe model generates:\n\ncontinuous reburn probability map\n5-class susceptibility map\nmunicipality averages\npredictor diagnostics\ninteractive click inspection",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#live-web-app",
-    "href": "index.html#live-web-app",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "8.1 Live Web App",
-    "text": "8.1 Live Web App\n(replace with your final deployed URL if needed)",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "index.html#local-preview",
-    "href": "index.html#local-preview",
-    "title": "Pedrógão Grande Reburn Susceptibility",
-    "section": "8.2 Local Preview",
-    "text": "8.2 Local Preview\nRun in terminal:\nquarto preview\n\n\n\n:::{#quarto-navigation-envelope .hidden}\n[Pedrógão Grande Reburn Susceptibility]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyLXRpdGxl\"}\n[Pedrógão Grande Reburn Susceptibility]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXItdGl0bGU=\"}\n[Project Summary]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uZXh0\"}\n[Home]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5odG1sSG9tZQ==\"}\n[Contents]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOnF1YXJ0by1zaWRlYmFyLXNlY3Rpb24tMQ==\"}\n[Project Summary]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjcHJvamVjdC1zdW1tYXJ5UHJvamVjdC1TdW1tYXJ5\"}\n[Problem Statement]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjcHJvYmxlbS1zdGF0ZW1lbnRQcm9ibGVtLVN0YXRlbWVudA==\"}\n[End User]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjZW5kLXVzZXJFbmQtVXNlcg==\"}\n[Study Area]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjc3R1ZHktYXJlYVN0dWR5LUFyZWE=\"}\n[Data]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjZGF0YURhdGE=\"}\n[Methodology]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjbWV0aG9kb2xvZ3lNZXRob2RvbG9neQ==\"}\n[Interface]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjaW50ZXJmYWNlSW50ZXJmYWNl\"}\n[The Application]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjdGhlLWFwcGxpY2F0aW9uVGhlLUFwcGxpY2F0aW9u\"}\n[How It Works]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjaG93LWl0LXdvcmtzSG93LUl0LVdvcmtz\"}\n[Limitations]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjbGltaXRhdGlvbnMtYW5kLWZ1dHVyZS1kZXZlbG9wbWVudExpbWl0YXRpb25z\"}\n[References]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1zaWRlYmFyOi9pbmRleC5xbWQjcmVmZXJlbmNlc1JlZmVyZW5jZXM=\"}\n[https://github.com/]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6aHR0cHM6Ly9naXRodWIuY29tLw==\"}\n[Live App]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6TGl2ZSBBcHA=\"}\n[https://exalted-country-485019-c8.projects.earthengine.app/view/pedrogao-reburn]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWludC1uYXZiYXI6aHR0cHM6Ly9leGFsdGVkLWNvdW50cnktNDg1MDE5LWM4LnByb2plY3RzLmVhcnRoZW5naW5lLmFwcC92aWV3L3BlZHJvZ2FvLXJlYnVybg==\"}\n[Home]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLWJyZWFkY3J1bWJzLUhvbWU=\"}\n:::\n\n\n\n:::{#quarto-meta-markdown .hidden}\n[Pedrógão Grande Reburn Susceptibility]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLW1ldGF0aXRsZQ==\"}\n[Pedrógão Grande Reburn Susceptibility]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLXR3aXR0ZXJjYXJkdGl0bGU=\"}\n[Pedrógão Grande Reburn Susceptibility]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLW9nY2FyZHRpdGxl\"}\n[Pedrógão Grande Reburn Susceptibility]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLW1ldGFzaXRlbmFtZQ==\"}\n[A Google Earth Engine Decision-Support Application for 2026 Wildfire Planning]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLXR3aXR0ZXJjYXJkZGVzYw==\"}\n[A Google Earth Engine Decision-Support Application for 2026 Wildfire Planning]{.hidden .quarto-markdown-envelope-contents render-id=\"cXVhcnRvLW9nY2FyZGRkZXNj\"}\n:::\n\n\n\n\n&lt;!-- --&gt;\n\n::: {.quarto-embedded-source-code}\n```````````````````{.markdown shortcodes=\"false\"}\n&lt;!-- =========================\nindex.qmd\nPut in project root\n========================= --&gt;\n\n---\ntitle: \"Pedrógão Grande Reburn Susceptibility\"\nsubtitle: \"A Google Earth Engine Decision-Support Application for 2026 Wildfire Planning\"\nauthor: \"Your Name / Team Name\"\ndate: today\n---\n\n# Project Summary {#project-summary}\n\nThis project develops a Google Earth Engine application to estimate **reburn susceptibility** within the 2017 Pedrógão Grande wildfire footprint in central Portugal.\n\nThe objective is to identify which 100 m cells are most likely to reburn before the 2026 fire season using satellite-derived ecological recovery indicators, fuel condition metrics, terrain variables, and historical fire observations.\n\nA Random Forest classifier was trained using official post-2017 reburn polygons and validated using a **spatial holdout design**, ensuring realistic predictive assessment under geographic transfer.\n\nThe final platform converts model outputs into operationally interpretable susceptibility classes, municipality summaries, and interactive spatial diagnostics suitable for wildfire governance and fuel management planning.\n\n---\n\n# Problem Statement {#problem-statement}\n\nThe 2017 central Portugal wildfires caused severe environmental and human losses. Although recovery has progressed, many Mediterranean landscapes remain exposed to renewed burning.\n\nCurrent planning challenges include:\n\n- identifying where vegetation recovery has recreated hazardous fuel loads;\n- distinguishing resilient from vulnerable post-fire zones;\n- prioritising limited mitigation budgets;\n- translating technical remote sensing outputs into policy-ready intelligence.\n\nMany wildfire models remain either academic, opaque, or operationally inaccessible. This project addresses that gap through an interactive Earth Engine application.\n\n---\n\n# End User {#end-user}\n\nThe primary users are:\n\n- :contentReference[oaicite:0]{index=0} planners\n- municipal wildfire resilience teams\n- forest landscape managers\n- environmental researchers\n- civil protection analysts\n\nThe application is designed for users who require:\n\n- spatial prioritisation;\n- transparent methodology;\n- map-based evidence;\n- district / municipality summaries;\n- interpretable risk classes.\n\n---\n\n# Study Area {#study-area}\n\nThe study focuses on the **2017 Pedrógão Grande fire footprint** in central :contentReference[oaicite:1]{index=1}.\n\nThis landscape is suitable because it contains:\n\n- a major historical wildfire scar;\n- multiple subsequent reburn events;\n- mixed topography;\n- heterogeneous vegetation recovery;\n- strong policy relevance for future wildfire prevention.\n\n---\n\n# Data {#data}\n\n| Category | Dataset | Purpose |\n|---|---|---|\n| Fire perimeter | ICNF 2017 wildfire polygons | Define study footprint |\n| Reburn labels | ICNF fire perimeters 2018–2025 | Response variable |\n| Burn severity | Sentinel-2 dNBR | Initial disturbance intensity |\n| Recovery | Sentinel-2 NBR time series | Vegetation regeneration |\n| Fuel condition | NDVI 2025 | Live biomass condition |\n| Moisture stress | NDMI minimum 2025 | Dryness indicator |\n| Surface heat | Landsat LST max 2025 | Thermal stress |\n| Terrain | Copernicus DEM | Elevation / aspect |\n\n---\n\n# Methodology {#methodology}\n\n## 1. Study Objective\n\nPredict which pixels inside the 2017 burn scar are most susceptible to reburning before the 2026 fire season.\n\n---\n\n## 2. Research Questions\n\n### Q1. Recovery trajectory\n\nHow does ecological recovery rate affect reburn probability?\n\n### Q2. Severity legacy\n\nDoes higher 2017 burn severity increase future reburn likelihood?\n\n### Q3. Operational prioritisation\n\nHow can continuous model probabilities be translated into actionable management classes?\n\n---\n\n## 3. Response Variable\n\nBinary reburn labels were created by intersecting official post-2017 fire perimeters with the 2017 Pedrógão footprint.\n\n- `1 = reburned`\n- `0 = not reburned`\n\n---\n\n## 4. Predictor Variables\n\n### Initial Fire Legacy\n\n- `dNBR_2017`\n\n### Recovery Dynamics\n\n- `NBR_slope_2018_2020`\n- `NBR_offset`\n\n### Fuel State (2025)\n\n- `NDVI_2025`\n- `NDMI_min_2025`\n- `LST_max_2025`\n\n### Terrain Controls\n\n- `elevation`\n- `aspect`\n\n---\n\n## 5. Variable Refinement\n\nTwo candidate predictors were removed after model screening:\n\n- slope\n- distance to settlement\n\nReasons:\n\n- zero Random Forest importance;\n- negligible AUC contribution;\n- simplified model interpretation.\n\n---\n\n## 6. Leakage Prevention\n\nTo avoid temporal leakage, vegetation recovery slope was estimated using **2018–2020 only**, rather than using later years that may already contain reburn impacts.\n\nThis improves causal validity.\n\n---\n\n## 7. Model Specification\n\nA Random Forest classifier was implemented in :contentReference[oaicite:2]{index=2} Earth Engine.\n\nMain settings:\n\n- Trees: 100\n- Minimum leaf population: 10\n- Balanced class sampling\n\nTwo output modes:\n\n- **Probability**\n- **Classification**\n\n---\n\n## 8. Validation Strategy\n\nInstead of a random split, a **spatial holdout design** was used.\n\nTraining regions:\n\n- Mação\n- Góis\n- Abrantes\n\nTesting region:\n\n- Pedrógão Grande\n\nThis reduces inflated performance caused by spatial autocorrelation.\n\n---\n\n## 9. Performance Metrics\n\nModel quality was assessed using:\n\n- AUC\n- Brier Score\n- Accuracy\n- Kappa\n- Precision\n- Recall\n- F1 Score\n\nThe optimal classification threshold was selected using **Youden's J statistic** rather than a naive 0.5 cutoff.\n\n---\n\n## 10. Final Outputs\n\nThe model generates:\n\n- continuous reburn probability map\n- 5-class susceptibility map\n- municipality averages\n- predictor diagnostics\n- interactive click inspection\n\n---\n\n# Interface {#interface}\n\nThe interface was designed for clarity and operational usability.\n\nMain components:\n\n- interactive map layers\n- municipality overlays\n- click-based pixel diagnostics\n- predictor values panel\n- susceptibility legend\n- chart outputs\n- methodology notes\n- dark mode support\n\n---\n\n# The Application {#the-application}\n\n## Live Web App\n\n\n\n*(replace with your final deployed URL if needed)*\n\n## Local Preview\n\nRun in terminal:\n\n```bash\nquarto preview\n:::",
-    "crumbs": [
-      "Home"
-    ]
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
   },
   {
     "objectID": "index.html#project-summary",
     "href": "index.html#project-summary",
     "title": "Pedrógão Grande Reburn Susceptibility Application",
     "section": "",
-    "text": "This project develops a Google Earth Engine application for policymakers and wildfire planners to assess reburn susceptibility within the 2017 Pedrógão Grande fire footprint in central Portugal. The model identifies which 100 m cells are most likely to reburn before the 2026 fire season by combining official fire perimeter data with remotely sensed indicators of initial burn severity, post-fire vegetation recovery, current fuel condition, and topographic controls. A Random Forest classifier is used to estimate reburn probability from these predictors, and the final application translates model outputs into interactive maps, municipality summaries, and click-based spatial diagnostics. The platform is intended to support operational prioritisation for fuel reduction and wildfire resilience planning.",
+    "text": "This project develops a Google Earth Engine application for policymakers and wildfire planners to assess reburn susceptibility within the 2017 Pedrógão Grande fire footprint in central Portugal. The model identifies which 100 m cells are most likely to reburn before the 2026 fire season by combining official fire perimeter data with remotely sensed indicators of initial burn severity, post-fire vegetation recovery, current fuel condition, and topographic controls. A Random Forest classifier is used to estimate reburn probability from these predictors, and the final application translates model outputs into interactive maps, municipality summaries, and click-based spatial diagnostics. The platform is intended to support operational prioritisation for fuel reduction and wildfire resilience planning.\n\n\nThe application maps the distribution of re-ignition susceptibility in the affected area of the Great Pedrogan Fire in central Portugal in 2017. Using the flare-up boundary data from 2018 to 2025 provided by the Portuguese National Forest Service (ICNF), the application analyses the correlation between the severity of the fire, post-fire recovery, fuel status in 2025, surface temperature, and the topography and the spatial distribution pattern of the re-ignition. The application aims to support risk prioritisation before the 2026 fire season through an interactive and easy-to-understand interface.\n\n\n\nThe main target user of the tool is AGIF, which is especially suitable for prioritising fuel reduction work in the affected area. The tool is also suitable for other stakeholders involved in post-fire management, who need to check the flammability distribution pattern, explore local predictor values, and understand the output of the model behind the map.",
     "crumbs": [
       "Home"
     ]
@@ -161,7 +34,7 @@
     "href": "index.html#methodology",
     "title": "Pedrógão Grande Reburn Susceptibility Application",
     "section": "3 Methodology",
-    "text": "3 Methodology\nThe application predicts reburn susceptibility inside the 2017 Pedrógão Grande wildfire footprint by combining official fire history with satellite-derived environmental predictors in a supervised machine learning workflow. The response variable is a binary reburn label created by intersecting ICNF fire perimeters from 2018–2025 with the 2017 fire footprint. Cells that burned again after 2017 are labelled as reburned, while cells inside the original footprint with no subsequent overlap are labelled as non-reburned. This design frames reburn as an observable post-fire spatial outcome rather than as a purely theoretical hazard class.\nPredictor construction follows the logic that reburn likelihood should reflect both legacy effects of the 2017 fire and current fuel and site conditions. The first component is initial burn severity, represented by 2017 dNBR derived from pre-fire and post-fire Sentinel-2 imagery. The second component is ecological recovery, represented by an NBR recovery slope and offset estimated from annual summer imagery. Importantly, the slope is fitted only over 2018–2020 rather than over the full post-fire period, in order to reduce temporal leakage: if years that already contain reburn events are included in the fit, the recovery metric may partly reflect the outcome the model is trying to predict. The third component is current fuel condition in 2025, represented through NDVI, minimum summer NDMI, and maximum summer land surface temperature derived from Landsat 8 and Landsat 9. The final component is topographic control, represented by elevation and aspect from the Copernicus DEM.\nAn initial, broader predictor set was refined during model development. Two variables, slope and distance to settlement, were removed in the final version because they showed zero importance in the Random Forest model and did not materially improve validation performance. Their exclusion simplified the predictor stack without measurable loss of predictive skill. The final model therefore uses eight predictors: dNBR_2017, NBR_slope, NBR_offset, NDVI_2025, NDMI_2025_min, LST_2025_max, aspect, and elevation.\nModel fitting is implemented using a Random Forest classifier in Google Earth Engine. A balanced stratified sample is drawn from reburn and non-reburn classes, and the classifier is trained using probability output for susceptibility estimation and classification output for discrete evaluation. Rather than using a conventional random split between training and validation data, the workflow adopts a spatial holdout design. One fire polygon, Pedrógão Grande, is reserved entirely for testing, while the remaining polygons are used for training. This is methodologically important because neighbouring pixels in remote sensing data are strongly spatially autocorrelated; a random split would therefore overestimate predictive skill by allowing very similar nearby pixels to appear in both training and test sets.\nModel performance is assessed using AUC, Brier score, confusion matrices, accuracy, and kappa. Because the reburn class is relatively rare and the predicted probabilities are compressed into a low range, the final classification threshold is selected using Youden’s J statistic rather than a default threshold of 0.5. This provides a more defensible operating point for reporting categorical performance. To support interpretation, the workflow also computes binned partial dependence relationships for key predictors, especially NBR recovery slope and 2017 dNBR, which directly address the project’s substantive questions about recovery trajectory and severity legacy. The continuous reburn probability surface is then converted into a five-class susceptibility product using percentile-based breaks, and municipality-level summaries are derived to support policy-oriented prioritisation.",
+    "text": "3 Methodology\nThe application predicts reburn susceptibility inside the 2017 Pedrógão Grande wildfire footprint by combining official fire history with satellite-derived environmental predictors in a supervised machine learning workflow. The response variable is a binary reburn label created by intersecting ICNF fire perimeters from 2018–2025 with the 2017 fire footprint. Cells that burned again after 2017 are labelled as reburned, while cells inside the original footprint with no subsequent overlap are labelled as non-reburned. This design frames reburn as an observable post-fire spatial outcome rather than as a purely theoretical hazard class.\nPredictor construction follows the logic that reburn likelihood should reflect both legacy effects of the 2017 fire and current fuel and site conditions. The first component is initial burn severity, represented by 2017 dNBR derived from pre-fire and post-fire Sentinel-2 imagery. The second component is ecological recovery, represented by an NBR recovery slope and offset estimated from annual summer imagery. Importantly, the slope is fitted only over 2018–2020 rather than over the full post-fire period, in order to reduce temporal leakage: if years that already contain reburn events are included in the fit, the recovery metric may partly reflect the outcome the model is trying to predict. The third component is current fuel condition in 2025, represented through NDVI, minimum summer NDMI, and maximum summer land surface temperature derived from Landsat 8 and Landsat 9. The final component is topographic control, represented by elevation and aspect from the Copernicus DEM.\nAn initial, broader predictor set was refined during model development. Two variables, slope and distance to settlement, were removed in the final version because they showed zero importance in the Random Forest model and did not materially improve validation performance. Their exclusion simplified the predictor stack without measurable loss of predictive skill. The final model therefore uses eight predictors: dNBR_2017, NBR_slope, NBR_offset, NDVI_2025, NDMI_2025_min, LST_2025_max, aspect, and elevation.\nModel fitting is implemented using a Random Forest classifier in Google Earth Engine. A balanced stratified sample is drawn from reburn and non-reburn classes, and the classifier is trained using probability output for susceptibility estimation and classification output for discrete evaluation. Rather than using a conventional random split between training and validation data, the workflow adopts a spatial holdout design. One fire polygon, Pedrógão Grande, is reserved entirely for testing, while the remaining polygons are used for training. This is methodologically important because neighbouring pixels in remote sensing data are strongly spatially autocorrelated; a random split would therefore overestimate predictive skill by allowing very similar nearby pixels to appear in both training and test sets.\nModel performance is assessed using AUC, Brier score, confusion matrices, accuracy, and kappa. Because the reburn class is relatively rare and the predicted probabilities are compressed into a low range, the final classification threshold is selected using Youden’s J statistic rather than a default threshold of 0.5. This provides a more defensible operating point for reporting categorical performance. To support interpretation, the workflow also computes binned partial dependence relationships for key predictors, especially NBR recovery slope and 2017 dNBR, which directly address the project’s substantive questions about recovery trajectory and severity legacy. The continuous reburn probability surface is then converted into a five-class susceptibility product using percentile-based breaks, and municipality-level summaries are derived to support policy-oriented prioritisation.\n\n\n\n\n\nflowchart LR\n    subgraph L1[\"🔴 Legacy effects\"]\n        A[dNBR 2017\\nBurn severity]\n    end\n\n    subgraph L2[\"🟢 Ecological recovery\"]\n        B[NBR slope\\n2018–2020 trend]\n        C[NBR offset\\nRecovery intercept]\n    end\n\n    subgraph L3[\"🟡 Current fuel state\"]\n        D[NDVI 2025\\nVegetation cover]\n        E[NDMI min 2025\\nFuel moisture]\n        F[LST max 2025\\nSurface temperature]\n    end\n\n    subgraph L4[\"🔵 Topographic control\"]\n        G[Elevation]\n        H[Aspect]\n    end\n\n    LABEL[ICNF reburn labels\\nBinary 0/1 · 2018–2025]\n\n    RF[\"Random Forest\\n100 trees · spatial holdout\"]\n\n    A --&gt; RF\n    B --&gt; RF\n    C --&gt; RF\n    D --&gt; RF\n    E --&gt; RF\n    F --&gt; RF\n    G --&gt; RF\n    H --&gt; RF\n    LABEL --&gt; RF\n\n    RF --&gt; PROB[Reburn probability\\n0–1]\n    RF --&gt; CLASS[5-class map\\nQuantile breaks]",
     "crumbs": [
       "Home"
     ]
@@ -215,5 +88,12 @@
     "crumbs": [
       "Home"
     ]
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
   }
 ]
