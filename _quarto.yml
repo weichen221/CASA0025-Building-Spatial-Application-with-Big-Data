@@ -1,0 +1,74 @@
+# =========================
+# _quarto.yml
+# Put this file in project root
+# =========================
+
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Pedrógão Grande Reburn Susceptibility"
+  favicon: favicon.png
+  search: true
+
+  navbar:
+    right:
+      - icon: github
+        href: https://github.com/
+      - text: Live App
+        href: https://exalted-country-485019-c8.projects.earthengine.app/view/pedrogao-reburn
+
+  sidebar:
+    style: docked
+    collapse-level: 2
+    search: true
+    contents:
+      - href: index.qmd
+        text: Home
+
+      - section: "Contents"
+        contents:
+          - href: index.qmd#project-summary
+            text: Project Summary
+          - href: index.qmd#problem-statement
+            text: Problem Statement
+          - href: index.qmd#end-user
+            text: End User
+          - href: index.qmd#study-area
+            text: Study Area
+          - href: index.qmd#data
+            text: Data
+          - href: index.qmd#methodology
+            text: Methodology
+          - href: index.qmd#interface
+            text: Interface
+          - href: index.qmd#the-application
+            text: The Application
+          - href: index.qmd#how-it-works
+            text: How It Works
+          - href: index.qmd#limitations-and-future-development
+            text: Limitations
+          - href: index.qmd#references
+            text: References
+
+format:
+  html:
+    theme:
+      light: united
+      dark: superhero
+    toc: true
+    toc-depth: 4
+    toc-location: right
+    page-layout: full
+    smooth-scroll: true
+    code-fold: true
+    code-tools: true
+    number-sections: true
+    link-external-newwindow: true
+    css: styles.css
+
+execute:
+  echo: false
+  warning: false
+  message: false

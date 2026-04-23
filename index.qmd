@@ -1,0 +1,88 @@
+---
+title: "Pedrógão Grande Reburn Susceptibility Application"
+---
+
+## Project Summary
+
+This project develops a Google Earth Engine application for policymakers and wildfire planners to assess **reburn susceptibility** within the 2017 Pedrógão Grande fire footprint in central Portugal. The model identifies which 100 m cells are most likely to reburn before the 2026 fire season by combining official fire perimeter data with remotely sensed indicators of initial burn severity, post-fire vegetation recovery, current fuel condition, and topographic controls. A Random Forest classifier is used to estimate reburn probability from these predictors, and the final application translates model outputs into interactive maps, municipality summaries, and click-based spatial diagnostics. The platform is intended to support operational prioritisation for fuel reduction and wildfire resilience planning.
+
+## Data
+
+| Category | Dataset | Description | Source |
+|---|---|---|---|
+| Custom asset | ICNF 2017 fire perimeter | Official 2017 summer fire polygons used to define the study footprint | [Link](https://code.earthengine.google.com/?asset=projects/exalted-country-485019-c8/assets/icnf_2017_centre) |
+| Custom asset | ICNF reburn perimeters 2018–2025 | Official post-2017 reburn polygons used to create binary reburn labels | [Link](https://code.earthengine.google.com/?asset=projects/exalted-country-485019-c8/assets/icnf_reburns_2018_2025) |
+| Custom asset | Predictor stack v2 | Precomputed 8-band predictor asset used by the deployed app | [Link](https://code.earthengine.google.com/?asset=projects/exalted-country-485019-c8/assets/predictors_stack_icnf_v2) |
+| GEE built-in | Sentinel-2 SR Harmonized | Surface reflectance imagery used to derive NBR, NDVI, and NDMI | [Link](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED) |
+| GEE built-in | Cloud Score+ S2 Harmonized | Pixel-quality layer used to retain relatively clear observations | [Link](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_CLOUD_SCORE_PLUS_V1_S2_HARMONIZED) |
+| GEE built-in | Landsat 8 Level 2 | Surface temperature source for 2025 LST | [Link](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC08_C02_T1_L2) |
+| GEE built-in | Landsat 9 Level 2 | Surface temperature source for 2025 LST | [Link](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1_L2) |
+| GEE built-in | Copernicus DEM GLO-30 | Elevation source used to derive elevation and aspect | [Link](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_DEM_GLO30) |
+| GEE built-in | FAO GAUL level 2 | Administrative boundaries used for municipality aggregation | [Link](https://developers.google.com/earth-engine/datasets/catalog/FAO_GAUL_2015_level2) |
+
+## Methodology
+
+The application predicts reburn susceptibility inside the 2017 Pedrógão Grande wildfire footprint by combining official fire history with satellite-derived environmental predictors in a supervised machine learning workflow. The response variable is a binary reburn label created by intersecting ICNF fire perimeters from 2018–2025 with the 2017 fire footprint. Cells that burned again after 2017 are labelled as reburned, while cells inside the original footprint with no subsequent overlap are labelled as non-reburned. This design frames reburn as an observable post-fire spatial outcome rather than as a purely theoretical hazard class.
+
+Predictor construction follows the logic that reburn likelihood should reflect both **legacy effects of the 2017 fire** and **current fuel and site conditions**. The first component is initial burn severity, represented by 2017 dNBR derived from pre-fire and post-fire Sentinel-2 imagery. The second component is ecological recovery, represented by an NBR recovery slope and offset estimated from annual summer imagery. Importantly, the slope is fitted only over 2018–2020 rather than over the full post-fire period, in order to reduce temporal leakage: if years that already contain reburn events are included in the fit, the recovery metric may partly reflect the outcome the model is trying to predict. The third component is current fuel condition in 2025, represented through NDVI, minimum summer NDMI, and maximum summer land surface temperature derived from Landsat 8 and Landsat 9. The final component is topographic control, represented by elevation and aspect from the Copernicus DEM.
+
+An initial, broader predictor set was refined during model development. Two variables, slope and distance to settlement, were removed in the final version because they showed zero importance in the Random Forest model and did not materially improve validation performance. Their exclusion simplified the predictor stack without measurable loss of predictive skill. The final model therefore uses eight predictors: dNBR_2017, NBR_slope, NBR_offset, NDVI_2025, NDMI_2025_min, LST_2025_max, aspect, and elevation.
+
+Model fitting is implemented using a Random Forest classifier in Google Earth Engine. A balanced stratified sample is drawn from reburn and non-reburn classes, and the classifier is trained using probability output for susceptibility estimation and classification output for discrete evaluation. Rather than using a conventional random split between training and validation data, the workflow adopts a **spatial holdout** design. One fire polygon, Pedrógão Grande, is reserved entirely for testing, while the remaining polygons are used for training. This is methodologically important because neighbouring pixels in remote sensing data are strongly spatially autocorrelated; a random split would therefore overestimate predictive skill by allowing very similar nearby pixels to appear in both training and test sets.
+
+
+Model performance is assessed using AUC, Brier score, confusion matrices, accuracy, and kappa. Because the reburn class is relatively rare and the predicted probabilities are compressed into a low range, the final classification threshold is selected using **Youden’s J statistic** rather than a default threshold of 0.5. This provides a more defensible operating point for reporting categorical performance. To support interpretation, the workflow also computes binned partial dependence relationships for key predictors, especially NBR recovery slope and 2017 dNBR, which directly address the project’s substantive questions about recovery trajectory and severity legacy. The continuous reburn probability surface is then converted into a five-class susceptibility product using percentile-based breaks, and municipality-level summaries are derived to support policy-oriented prioritisation.
+
+
+
+
+## Interface
+
+The website provides a map-based interface for exploring reburn susceptibility across the 2017 footprint. Users can switch between probability and classified susceptibility layers, inspect municipality-level summaries, and click individual locations to retrieve predictor values, probability scores, and local recovery trajectories. The application is intended to maintain scientific transparency while remaining legible to operational users, allowing both technical and policy-facing audiences to interpret the same model outputs.
+
+## The Application
+
+### Live App
+
+[Open the Earth Engine App](https://exalted-country-485019-c8.projects.earthengine.app/view/pedrogao-reburn)
+
+### Embedded App
+
+```{=html}
+<iframe
+  src="https://exalted-country-485019-c8.projects.earthengine.app/view/pedrogao-reburn"
+  width="100%"
+  height="700">
+</iframe>
+
+
+## How It Works
+
+### 1. Data Preparation and Precomputations
+
+To keep the application responsive, the most computationally expensive steps are prepared in advance. The workflow first assembles the 2017 fire footprint, derives reburn labels from the 2018–2025 ICNF polygons, and computes predictor layers from Sentinel-2, Landsat, and DEM inputs. These predictors are then exported as a dedicated Earth Engine asset (predictors_stack_icnf_v2) so that the app can load them directly without recomputing large image collections at runtime.
+
+### 2. Interactive Visualization and Analysis
+
+Once loaded, the app allows users to visualise reburn susceptibility as either a continuous probability surface or a five-class susceptibility product. Municipality overlays summarise mean reburn probability and the proportion of high-risk cells. Clicking on the map reveals local predictor values, the corresponding susceptibility estimate, and an NBR recovery trajectory for the selected location. This allows users to move between synoptic planning views and site-specific interpretation.
+
+### 3. Insights and Objectives
+
+The application is designed to support wildfire planning before the 2026 fire season by identifying where reburn is most likely within the 2017 footprint. It is particularly intended to help with spatial prioritisation of fuel treatments, comparison across municipalities, and interpretation of the ecological mechanisms associated with reburn risk, including the role of severity legacy, vegetation recovery, and current fuel stress.
+
+## Limitations 
+
+The current version is a static susceptibility application rather than a dynamic forecasting system. It does not yet incorporate short-term meteorological drivers, suppression history, or explicit management-treatment data. Municipality aggregation is useful for operational summarisation but remains coarser than the underlying 100 m susceptibility surface. Future development could include seasonal updates, dynamic weather inputs, scenario-based treatment testing, and exportable reports for decision support.
+
+## References
+-待补充
+-待补充
+
+
+
+
+
+
+
+
+

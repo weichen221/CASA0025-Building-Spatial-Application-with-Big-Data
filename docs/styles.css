@@ -1,0 +1,25 @@
+/* =========================
+styles.css
+Optional polish
+========================= */
+
+.quarto-title-banner {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.sidebar nav[role="doc-toc"] {
+  font-size: 0.95rem;
+}
+
+table {
+  font-size: 0.95rem;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+}
+
+code {
+  border-radius: 6px;
+}
