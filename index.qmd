@@ -14,6 +14,16 @@ The June 2017 Pedrógão Grande complex (Pedrógão Grande, Góis Arganil, and A
 
 The primary user is AGIF. The product is designed to fit AGIF planning language. Output is reported both as a continuous probability and as priority hectares aggregated to the concelho, the administrative unit at which AGIF allocates fuel reduction budget. A secondary user is ICNF for restoration planning and Copernicus EMS for regional post fire monitoring. The interface targets operational staff who need to read maps, click pixels for evidence and export priority lists into their own GIS workflow, not researchers who need to retrain the model.
 
+## Research Questions
+
+**Main question.** Within the 2017 Pedrógão Grande burn footprint, which 100-metre cells are most likely to reburn before the 2026 fire season?
+
+Three sub-questions decompose the main question along three reburn driver mechanisms.
+
+- **Q1. Ecological recovery.** Does the rate of post-fire vegetation recovery between 2018 and 2020 predict reburn probability?
+- **Q2. Severity legacy.** Does the severity of the 2017 burn predict reburn probability?
+- **Q3. Current fuel state.** Do 2025 vegetation cover, fuel moisture, and surface heat predict reburn probability?
+
 ## Data
 
 | Category | Dataset | Use in this project |
